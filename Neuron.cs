@@ -3,9 +3,7 @@
 	public class Neuron
 	{
 		public List<double> Weights { get; }
-
 		public ENeuronType NeuronType { get; }
-
 		public double Output { get; private set; }
 
 		public Neuron(int inputCount, ENeuronType type = ENeuronType.Normal)
@@ -25,6 +23,12 @@
 
 			Output = Sigmoid(sum);
 			return Output;
+		}
+
+		public void SetWeights(params double[] weights)
+		{
+			for (int i = 0; i < weights.Length; i++)
+				Weights[i] = weights[i];
 		}
 
 		private static double Sigmoid(double x) => 1.0 / (1.0 + Math.Pow(Math.E, -x));
