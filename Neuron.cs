@@ -21,7 +21,11 @@
 			for (int i = 0; i < inputs.Count; i++)
 				sum += inputs[i] * Weights[i];
 
-			Output = Sigmoid(sum);
+			if (NeuronType != ENeuronType.Input)
+				Output = Sigmoid(sum);
+			else
+				Output = sum;
+
 			return Output;
 		}
 
