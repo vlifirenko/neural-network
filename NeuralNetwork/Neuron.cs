@@ -23,7 +23,10 @@
 
 			for (int i = 0; i < inputCount; i++)
 			{
-				Weights.Add(random.NextDouble());
+				if (NeuronType == ENeuronType.Input)
+					Weights.Add(1);
+				else
+					Weights.Add(random.NextDouble());
 				Inputs.Add(0);
 			}
 		}
@@ -43,13 +46,6 @@
 				Output = sum;
 
 			return Output;
-		}
-
-		public void SetWeights(params double[] weights)
-		{
-			// TODO: remove
-			for (int i = 0; i < weights.Length; i++)
-				Weights[i] = weights[i];
 		}
 
 		public void Learn(double error, double learningRate)

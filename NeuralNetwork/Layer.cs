@@ -3,11 +3,13 @@
 	public class Layer
 	{
 		public List<Neuron> Neurons { get; private set; }
-		public int Count => Neurons?.Count ?? 0;
+		public int NeuronCount => Neurons?.Count ?? 0;
+		public ENeuronType Type;
 
 		public Layer(List<Neuron> neurons, ENeuronType type = ENeuronType.Normal)
 		{
 			Neurons = neurons;
+			Type = type;
 		}
 
 		public List<double> GetSignals()
@@ -19,5 +21,7 @@
 
 			return result;
 		}
+
+		public override string ToString() => Type.ToString();
 	}
 }
