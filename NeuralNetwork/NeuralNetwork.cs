@@ -26,17 +26,76 @@
 				return Layers.Last().Neurons.OrderByDescending(n => n.Output).First();
 		}
 
-		public double Learn(List<Tuple<double, double[]>> dataset, int epoch)
+		public double Learn(double[] expected, double[,] inputs, int epoch)
 		{
 			var error = 0.0;
 
-			for (int i = 0; i <epoch;i++)
+			for (int i = 0; i < epoch; i++)
 			{
-				foreach (var data in dataset)
-					error += BackPropagation(data.Item1, data.Item2);
+				for (int j = 0; j < expected.Length; j++)
+				{
+					var output = expected[j];
+					var input = GetRow(inputs, j);
+
+					error += BackPropagation(output, input);
+				}
 			}
 
 			var result = error / epoch;
+			return result;
+		}
+
+		private double[,] Scalling(double[,] inputs)
+		{
+			var result = new double[inputs.GetLength(0), inputs.GetLength(1)];
+
+			for (int col = 0; col < inputs.GetLength(1); col++)
+			{
+				var min = inputs[0, col];
+				var max = inputs[0, col];
+
+				for (int row = 1; row < inputs.GetLength(0); row++)
+				{
+					var item = inputs[row, col];
+
+					if (item < min)
+						min = item;
+
+					if (item > max)
+						max = item;
+				}
+
+				var divider = max - min;
+
+				for (int row = 1; row < inputs.GetLength(0); row++)
+					result[row, col] = (inputs[row, col] - min) / divider;
+			}
+
+			return result;
+		}
+
+		private double[,] Normalization(double[,] inputs)
+		{
+			var result = new double[inputs.GetLength(0), inputs.GetLength(1)];
+
+			for (int col = 0; col < inputs.GetLength(1); col++)
+			{
+				// average value of signal
+				var sum = 0.0;
+				for (int row = 0; row < inputs.GetLength(0); row++)
+					sum += inputs[row, col];
+				var average = sum / inputs.GetLength(0);
+
+				// standard quad offset of neuron
+				var error = 0.0;
+				for (int row = 0; row < inputs.GetLength(0); row++)
+					error += Math.Pow(inputs[row, col] - average, 2);
+				var standardError = Math.Sqrt(error / inputs.GetLength(0));
+
+				for (int row = 0; row < inputs.GetLength(0); row++)
+					result[row, col] = (inputs[row, col] - average) / standardError;
+			}
+
 			return result;
 		}
 
@@ -57,7 +116,7 @@
 				{
 					var neuron = layer.Neurons[i];
 
-					for (int k = 0; k < previousLayer.NeuronCount;k++)
+					for (int k = 0; k < previousLayer.NeuronCount; k++)
 					{
 						var previousNeuron = previousLayer.Neurons[k];
 						var error = previousNeuron.Weights[i] * previousNeuron.Delta;
@@ -135,6 +194,17 @@
 
 			var outputLayer = new Layer(outputNeurons, ENeuronType.Output);
 			Layers.Add(outputLayer);
+		}
+
+		public static double[] GetRow(double[,] matrix, int row)
+		{
+			var columns = matrix.GetLength(1);
+			var array = new double[columns];
+
+			for (int i = 0; i < columns; i++)
+				array[i] = matrix[row, i];
+
+			return array;
 		}
 	}
 }
