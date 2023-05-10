@@ -14,9 +14,9 @@
             Height = image.Height;
             Width = image.Width;
 
-            for (int x = 0; x < image.Width; x++)
+            for (int y = 0; y < image.Height; y++)
             {
-                for (int y = 0; y < image.Height; y++)
+                for (int x = 0; x < image.Width; x++)
                 {
                     var pixel = image.GetPixel(x, y);
                     var value = Brightness(pixel);
@@ -38,9 +38,9 @@
         {
             var image = new Bitmap(Width, Height);
 
-            for (int x = 0; x < image.Width; x++)
+            for (int y = 0; y < image.Height; y++)
             {
-                for (int y = 0; y < image.Height; y++)
+                for (int x = 0; x < image.Width; x++)
                 {
                     var color = pixels[y * Width + x] == 1 ? Color.White : Color.Black;
                     image.SetPixel(x, y, color);
