@@ -64,8 +64,9 @@
             // inputToolStripMenuItem
             // 
             inputToolStripMenuItem.Name = "inputToolStripMenuItem";
-            inputToolStripMenuItem.Size = new Size(143, 22);
-            inputToolStripMenuItem.Text = "Input data";
+            inputToolStripMenuItem.Size = new Size(180, 22);
+            inputToolStripMenuItem.Text = "Enter data";
+            inputToolStripMenuItem.Click += inputToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 

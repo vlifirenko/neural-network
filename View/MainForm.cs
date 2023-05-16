@@ -22,9 +22,13 @@ namespace NeuralNetwork
                 var pictureConverter = new PictureConverter();
                 var inputs = pictureConverter.Convert(openFileDialog1.FileName);
                 var result = Program.Controller.ImageNetwork.Predict(inputs).Output;
-
-
             }
+        }
+
+        private void inputToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var enterDataForm = new EnterData();
+            var result = enterDataForm.ShowForm();
         }
     }
 }
