@@ -2,18 +2,18 @@
 {
     public class Patient
     {
-        public int Age { get; }
-        public int Gender { get; }
-        public int ChestPainType { get; }
-        public int BloodPressure { get; }
-        public int Cholestoral { get; }
-        public int Sugar { get; }
-        public int Electrocardiographic { get; }
-        public int HeartRate { get; }
-        public int InducedAngina { get; }
-        public double StDepression { get; }
-        public int Slope { get; }
-        public int NumberMajorVessels { get; }
-        public int Thal { get; }
+        public double Age { get; set; }
+        public double Gender { get; set; }
+        public double ChestPainType { get; set; }
+        public double BloodPressure { get; set; }
+        public double Cholestoral { get; set; }
+        public double Sugar { get; set; }
+        public double Electrocardiographic { get; set; }
+        public double HeartRate { get; set; }
+        public double InducedAngina { get; set; }
+        public double StDepression { get; set; }
+        public double Slope { get; set; }
+        public double NumberMajorVessels { get; set; }
+        public double Thal { get; set; }
     }
 }

@@ -4,6 +4,10 @@ namespace NeuralNetwork
 {
     public partial class EnterData : Form
     {
+        private List<TextBox> _inputs = new List<TextBox>();
+
+        public List<TextBox> Inputs => _inputs;
+
         public EnterData()
         {
             InitializeComponent();
@@ -15,6 +19,7 @@ namespace NeuralNetwork
                 var textBox = CreateTextBox(i, property);
 
                 Controls.Add(textBox);
+                _inputs.Add(textBox);
             }
         }
 
@@ -24,6 +29,14 @@ namespace NeuralNetwork
             if (form.ShowDialog() == DialogResult.OK)
             {
                 var patient = new Patient();
+
+                foreach (var textBox in form.Inputs)
+                {
+                    patient.GetType().InvokeMember(textBox.Tag.ToString(),
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty,
+                        Type.DefaultBinder, patient, new object[] { textBox.Text });
+                }
+
                 var result = Program.Controller.DataNetwork.Predict().Output;
 
                 return result == 1.0;
@@ -72,7 +85,8 @@ namespace NeuralNetwork
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }
